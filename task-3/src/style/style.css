@@ -1,0 +1,114 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.calculator {
+    width: 33%;
+    height: 75%;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #000;
+}
+
+.display {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: end;
+    width: 100%;
+    height: 33%;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 1rem;
+    font-size: 32px;
+    background-color: #fff;
+}
+
+.buttons {
+    display: grid;
+    width: 100%;
+    height: 66%;
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
+    gap: 10px 10px;
+    padding-top: 1rem;
+    grid-template-areas:
+    "clear clear delete delete"
+    "number_buttons number_buttons number_buttons operation_buttons"
+    "number_buttons number_buttons number_buttons operation_buttons"
+    "number_buttons number_buttons number_buttons operation_buttons"
+    "zero_button zero_button eval operation_buttons";
+}
+
+.clear {
+    border: 1px solid black;
+    grid-area: clear;
+    border-radius: 20px;
+    background-color: #808080;
+}
+
+.delete {
+    border: 1px solid black;
+    grid-area: delete;
+    border-radius: 20px;
+    background-color: #808080;
+}
+
+.number_buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    grid-area: number_buttons;
+    font-size: 24px;
+    gap: 5px;
+}
+
+.number {
+    width: 32%;
+    height: 31%;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #fff;
+}
+
+.operation_buttons {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    grid-area: operation_buttons;
+    font-size: 24px;
+    gap: 5px;
+}
+
+.operation_button {
+    width: 100%;
+    flex-grow: 1;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #808080;
+}
+
+.zero_button {
+    border: 1px solid black;
+    grid-area: zero_button;
+    font-size: 24px;
+    border-radius: 20px;
+    background-color: #fff;
+}
+
+.eval {
+    border: 1px solid black;
+    grid-area: eval;
+    border-radius: 20px;
+    background-color: #fff;
+}
