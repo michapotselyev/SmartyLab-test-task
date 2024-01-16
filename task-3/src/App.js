@@ -2,81 +2,94 @@ import React, { useState } from 'react';
 
 const App = () => {
   const [input, setInput] = useState('');
-  const [firstNumber, setFirstNumber] = useState('');
-  const [operator, setOperator] = useState('');
 
   const handleClick = (value) => {
-    if (input.length < 24) {
-      setInput((prevInput) => {
-        // Проверяем, является ли value числом
-        if (!isNaN(value)) {
-          // Если оператор уже выбран, начинаем вводить второе число
-          if (operator !== '') {
-            setFirstNumber(prevInput);
-            setOperator('');
-            return value;
-          }
-        }
-
-        // Проверяем, является ли value оператором
-        if (['+', '-', '*', '/'].includes(value)) {
-          // Если уже есть введенное число, сохраняем его и оператор
-          if (prevInput !== '') {
-            setFirstNumber(prevInput);
-            setOperator(value);
-            return prevInput + value;
-          }
-        }
-
-        return prevInput + value;
-      });
-    } else {
-      alert('Слишком большое число!');
+    if (input.length > 23) {
+      alert('Слишком большое количество символов!');
+      return;
     }
-  };
+
+    if (
+      (
+        value === '+'
+        || value === '-'
+        || value === '*'
+        || value === '/'
+      )
+      &&
+      (
+        input.split('+').length === 2
+        || input.split('-').length === 2
+        || input.split('*').length === 2
+        || input.split('/').length === 2
+      )
+    ) {
+      const currentResult = input.split('+').length === 2 ?
+          evaluetion(+input.split('+')[0], +input.split('+')[1], '+')
+        :
+          input.split('-').length === 2 ?
+            evaluetion(+input.split('-')[0], +input.split('-')[1], '-')
+          :
+            input.split('*').length === 2 ?
+              evaluetion(+input.split('*')[0], +input.split('*')[1], '*')
+            :
+              input.split('/').length === 2 ?
+                evaluetion(+input.split('/')[0], +input.split('/')[1], '/')
+              :
+                0;
+
+      setInput(prevInput => currentResult + value);
+      return;
+    }
+
+    setInput(prevInput => prevInput + value);
+  }
 
   const handleClear = () => {
     setInput('');
-    setFirstNumber('');
-    setOperator('');
-  };
+  }
 
   const handleDelete = () => {
-    setInput((prevInput) => prevInput.slice(0, -1));
-  };
+    setInput(prevInput => prevInput.slice(0, -1));
+  }
 
   const handleEvaluate = () => {
-    try {
-      if (firstNumber !== '' && operator !== '') {
-        const result = performOperation(parseFloat(firstNumber), parseFloat(input), operator);
-        setInput(result.toString());
-        setFirstNumber(result.toString());
-        setOperator('');
-      }
-    } catch (error) {
-      setInput('Error');
-    }
-  };
+    setInput(
+      input.split('+').length === 2 ?
+        evaluetion(+input.split('+')[0], +input.split('+')[1], '+') + ''
+      :
+        input.split('-').length === 2 ?
+          evaluetion(+input.split('-')[0], +input.split('-')[1], '-') + ''
+        :
+          input.split('*').length === 2 ?
+            evaluetion(+input.split('*')[0], +input.split('*')[1], '*') + ''
+          :
+            input.split('/').length === 2 ?
+              evaluetion(+input.split('/')[0], +input.split('/')[1], '/') + ''
+            :
+          0
+    );
+  }
 
-  const performOperation = (num1, num2, operator) => {
-    switch (operator) {
-      case '+':
-        return num1 + num2;
-      case '-':
-        return num1 - num2;
-      case '*':
-        return num1 * num2;
-      case '/':
-        if (num2 !== 0) {
-          return num1 / num2;
-        } else {
-          alert('Ошибка: деление на ноль');
-          return 0;
-        }
-      default:
-        return 0;
+  const evaluetion = (a, b, operand) => {
+    if (b === 0 && operand === '/') {
+      alert('На ноль делить нельзя!');
+      return 0;
     }
-  };
+
+    switch (operand) {
+      case '+':
+        return a + b;
+      case '-':
+        return a - b;
+      case '*':
+        return a * b;
+      case '/':
+        return a / b;
+      default:
+        return;
+    }
+  }
 
   return (
     <main>
